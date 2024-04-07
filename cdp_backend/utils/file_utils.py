@@ -242,7 +242,10 @@ def resource_copy(  # noqa: C901
                 # This response must be closed after the copy is done. But using
                 # `with requests.get() as response` fails mypy type checking.
                 # See: https://requests.readthedocs.io/en/latest/user/advanced/#body-content-workflow
-                response = requests.get(uri, stream=True, verify=True, timeout=1800)
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'
+                }
+                response = requests.get(uri, headers=headers, stream=True, verify=True, timeout=1800)
                 response.raise_for_status()
                 with open(dst, "wb") as open_dst:
                     shutil.copyfileobj(
